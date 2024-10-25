@@ -11,14 +11,16 @@ class Shader
 {
 public:
     Shader() {};
-    ~Shader() {
+    ~Shader()
+    {
         glDeleteProgram(shaderProgram);
     };
 
     std::string loadShaderSource(const char *filePath);
+
     int compileShaders();
 
     GLuint shaderProgram;
-    const char* vertexShaderPath; // Caminho do vertex shader
-    const char* fragmentShaderPath; // Caminho do fragment shader
+    const char *vertexShaderPath;   // Caminho do vertex shader
+    const char *fragmentShaderPath; // Caminho do fragment shader
 };

@@ -23,7 +23,8 @@ public:
     };
 
 protected:
-    void setVertices(std::vector<float> buffer) override;
+    void normalizeVertices(std::vector<float> buffer) override;
+    void setVertices() override;
     void performDraw() override;
 
 

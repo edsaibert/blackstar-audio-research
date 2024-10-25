@@ -61,9 +61,8 @@ int main(int argc, char* argv[]) {
         glfwSwapBuffers(window); // Troca os buffers de cor
 
         std::vector<float> audioBufferLeft = pa.getAudioBufferLeft(); // Obtém o buffer de áudio do canal esquerdo
-        yin.getPitch(audioBufferLeft);
+        // yin.getPitch(audioBufferLeft);
         
-        bezier.bindTextureBuffer(audioBufferLeft);
         bezier.draw(audioBufferLeft);
         // pa.FFT(audioBufferLeft, false); // Aplica a transformada rápida de Fourier
         // pa.normalizeFFT(audioBufferLeft); // Normaliza a transformada rápida de Fourier

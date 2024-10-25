@@ -4,24 +4,30 @@
     Shader for rendering a bezier curve
 */
 
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aVertex;
+layout(location = 0) in vec2 aPos;
+layout (binding = 1) uniform samplerBuffer controlPoints;
+out float fetchedValue;
 
-#define SEGMENTS 100
+// vec3 bezierFunction(float x1, float x2, float y1, float y2){
+//     float t = 0.5;
+//     float x = (1 - t) * ((1 - t) * x1 + t * x2) + t * ((1 - t) * x2 + t * x2);
+//     float y = (1 - t) * ((1 - t) * y1 + t * y2) + t * ((1 - t) * y2 + t * y2);
+//     return vec3(x, y, aPos.z);
+// }
 
-/* 
-    Code for the quadratic bezier curve
-    @param t: the time parameter
-    @param p0: the first control point
-    @param p1: the second control point
-    @return the point on the curve at time t
-*/
-vec3 quadraticBezier(float t, vec3 p0, vec3 p1, vec3 p2){
-    vec3 p = mix(mix(p0, p1, t), mix(p1, p2, t), t);
-    return p;
-}
 
 void main() {
-    
-}
+    // int index = gl_VertexID; // Compute the index for the current vertex
+    // float x1 = texelFetch(controlPoints, index * 2).r;       // Fetch X coordinate
+    // float y1 = texelFetch(controlPoints, index * 2 + 1).r;   // Fetch Y coordinate
 
+    // float x2 = texelFetch(controlPoints, (index + 1) * 2).r;   // Fetch X coordinate
+    // float y2 = texelFetch(controlPoints, (index + 1) * 2 + 1).r;   // Fetch Y coordinate
+
+    // fetchedValue = xValue; // Output one of the fetched values for testing
+
+    // // Modify the position using the fetched control points
+    // vec3 modifiedPosition = vec3(xValue, yValue, aPos.z);
+    // gl_Position = vec4(bezierFunction(x1, x2, y1, y2), 1.0);
+    gl_Position = vec4(aPos, 0.0, 1.0);
+}

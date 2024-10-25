@@ -9,6 +9,7 @@
 #include <complex>  // Biblioteca de números complexos
 #include <fstream>
 #include <cstddef> 
+#include <algorithm>
 
 // ----------------- OGG Vorbis -----------------
 #include <ogg/ogg.h>
@@ -26,8 +27,8 @@
 #include <GLFW/glfw3.h>  // GLFW, que permite a criação de janelas
 #include <GL/glu.h>
 
-#define SAMPLE_RATE 48000      //  taxa de amostragem
-#define FRAMES_PER_BUFFER 2048 // tamanho dos buffers de áudio e arestas
+#define SAMPLE_RATE 48000    //  taxa de amostragem
+#define FRAMES_PER_BUFFER 100 // tamanho dos buffers de áudio e arestas
 
 struct Vertex {
     float x, y;
