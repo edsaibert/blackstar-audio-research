@@ -28,7 +28,7 @@
 #include <GL/glu.h>
 
 #define SAMPLE_RATE 48000    //  taxa de amostragem
-#define FRAMES_PER_BUFFER 100 // tamanho dos buffers de áudio e arestas
+#define FRAMES_PER_BUFFER 128 // tamanho dos buffers de áudio e arestas
 
 struct Vertex {
     float x, y;

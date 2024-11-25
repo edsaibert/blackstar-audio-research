@@ -86,7 +86,7 @@ float yin::getPitch(std::vector<float> audioBuffer){
     if (tau != -1){
         pitchHz = SAMPLE_RATE / yin::calculateParabolicInterpolation(tau); 
     }
-    std::cout << "picthHz: " << pitchHz << std::endl;
+    // std::cout << "picthHz: " << pitchHz << std::endl;
     return pitchHz;
 }
 

@@ -1,6 +1,6 @@
 #include "bezier.h"
 
-void Bezier::normalizeVertices(std::vector<float> buffer)
+void Bezier::normalizeVertices(std::vector<float> buffer, float pitch)
 {
     float maxMagnitude = 0.0;
 
@@ -35,7 +35,7 @@ void Bezier::normalizeVertices(std::vector<float> buffer)
 
 void Bezier::setVertices()
 {
-    int numPoints = 100;
+    int numPoints = 10;
     curvePoints.clear();
 
     // Make sure there are enough points for a quadratic Bézier
