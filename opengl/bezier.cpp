@@ -20,16 +20,13 @@ void Bezier::normalizeVertices(std::vector<float> buffer)
     std::size_t n = buffer.size();
     for (std::size_t i = 0; i < n; i++)
     {
-        float frequency = (static_cast<float>(i) / (n - 1)) * 4 - 1;
+        float frequency = (static_cast<float>(i)*SAMPLE_RATE / n);
 
-        // normaliza entre -1 e 1
-        vertices[i * 2] = frequency; // Map to [-1, 1]
+        float logFrequency = std::log10(frequency + 1);  // escola logarítmica
+        float normalizedFrequency = (logFrequency - std::log10(20)) / (std::log10(20000) - std::log10(20)); // Normaliza entre 20 Hz e 20 kHz
 
-        // normaliza entre -1 e 1
-        float magnitude = std::abs(buffer[i]);
-        vertices[i * 2 + 1] = std::clamp((magnitude / maxMagnitude) - 0.5f, -1.0f, 1.0f);
-
-
+        vertices[i * 2] = normalizedFrequency * 2 - 1;                          // X coordinate entre [-1, 1]
+        vertices[i * 2 + 1] = (std::abs(buffer[i]) / maxMagnitude) - 0.5f; // Y coordinate entre [0, 1]
     }
 }
 
@@ -51,7 +48,7 @@ void Bezier::setVertices()
             glm::vec2 point = (1 - t) * (1 - t) * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
 
             curvePoints.push_back(point);
-            printf("x: %f, y: %f\n", curvePoints.back().x, curvePoints.back().y);
+            // printf("x: %f, y: %f\n", curvePoints.back().x, curvePoints.back().y);
         }
     }
 }

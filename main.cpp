@@ -16,6 +16,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 };
 
+void floatToComplex(std::vector<float>& input, std::vector<std::complex<float>>& output) {
+    output.clear();
+    for (float value : input) {
+        output.push_back(std::complex<float>(value, 0.0f));  // Parte real com imaginário = 0
+    }
+}
+
+// Função para transformar um vetor de complexos de volta para um vetor de floats (extraindo parte real)
+void complexToFloat(std::vector<std::complex<float>>& input, std::vector<float>& output) {
+    output.clear();
+    for (const auto& c : input) {
+        output.push_back(c.real());  // Extraindo a parte real do número complexo
+    }
+}
+
+
 int main(int argc, char* argv[]) {
     // gl gl(FRAMES_PER_BUFFER); // Cria um objeto da classe OpenGL
     Shader* shader = new Shader();   
@@ -62,9 +78,14 @@ int main(int argc, char* argv[]) {
 
         std::vector<float> audioBufferLeft = pa.getAudioBufferLeft(); // Obtém o buffer de áudio do canal esquerdo
         // yin.getPitch(audioBufferLeft);
-        
+        std::vector<std::complex<float>> audioBufferComplex;
+
+        floatToComplex(audioBufferLeft, audioBufferComplex);
+        pa.FFT(audioBufferComplex, false); // Aplica a transformada rápida de Fourier
+        complexToFloat(audioBufferComplex, audioBufferLeft);
+
+
         bezier.draw(audioBufferLeft);
-        // pa.FFT(audioBufferLeft, false); // Aplica a transformada rápida de Fourier
         // pa.normalizeFFT(audioBufferLeft); // Normaliza a transformada rápida de Fourier
 
         // gl.setVertices(audioBufferLeft);
