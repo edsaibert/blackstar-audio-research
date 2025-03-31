@@ -4,11 +4,14 @@ void Bezier::normalizeVertices(std::vector<float> buffer)
 {
     float maxMagnitude = 0.0;
 
+    // fazer copia do buffer
+    std::vector<float> copyBuffer = buffer;
+
     /*
         Encontra a amplitude máxima conforme a fórmula |a + bi| = sqrt(a^2 + b^2)
         onde a é a parte real e b é a parte imaginária
     */
-    for (const auto &c : buffer)
+    for (const auto &c : copyBuffer)
     {
         float magnitude = std::abs(c);
         if (magnitude > maxMagnitude)
@@ -17,7 +20,7 @@ void Bezier::normalizeVertices(std::vector<float> buffer)
         }
     }
 
-    std::size_t n = buffer.size();
+    std::size_t n = copyBuffer.size();
     for (std::size_t i = 0; i < n; i++)
     {
         float frequency = (static_cast<float>(i)*SAMPLE_RATE / n);
@@ -26,8 +29,8 @@ void Bezier::normalizeVertices(std::vector<float> buffer)
         float normalizedFrequency = (logFrequency - std::log10(20)) / (std::log10(20000) - std::log10(20)); // Normaliza entre 20 Hz e 20 kHz
 
         vertices[i * 2] = normalizedFrequency * 2 - 1;                          // X coordinate entre [-1, 1]
-        vertices[i * 2 + 1] = (std::abs(buffer[i]) / maxMagnitude) - 0.5f; // Y coordinate entre [0, 1]
-    }
+        vertices[i * 2 + 1] = (std::abs(copyBuffer[i]) / maxMagnitude) - 0.5f; // Y coordinate entre [0, 1]
+    } 
 }
 
 void Bezier::setVertices()

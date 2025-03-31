@@ -32,7 +32,7 @@ public:
     // Método virtual que desenha os vértices
     virtual void draw(std::vector<float> buffer)
     {
-        clearScreen();
+        // clearScreen();
         bindBuffers();
         normalizeVertices(buffer);
         setVertices();
@@ -92,6 +92,7 @@ protected:
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+        glUseProgram(0);
     };
 
     GLuint VAO, VBO, bufferID;

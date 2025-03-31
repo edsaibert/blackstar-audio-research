@@ -6,6 +6,7 @@
 #include "audio/audio.h"        // Audio, responsável pela captura e reprodução de áudio
 #include "yin/yin.h"
 #include "opengl/bezier.h"
+#include "opengl/referenceLines.h"
 // #include "shaders/shader.h"     // Shader, responsável pela criação de shaders
 
 using namespace std;
@@ -34,8 +35,10 @@ void complexToFloat(std::vector<std::complex<float>>& input, std::vector<float>&
 
 int main(int argc, char* argv[]) {
     // gl gl(FRAMES_PER_BUFFER); // Cria um objeto da classe OpenGL
-    Shader* shader = new Shader();   
-    Bezier bezier(FRAMES_PER_BUFFER, shader);
+    Shader* shaderBezier = new Shader();   
+    Shader* shaderReferenceLines = new Shader();
+    Bezier bezier(FRAMES_PER_BUFFER, shaderBezier);
+    ReferenceLines referenceLines(FRAMES_PER_BUFFER, shaderReferenceLines);
     pa pa(FRAMES_PER_BUFFER); // Cria um objeto da classe PortAudio e define o tamanho do buffer de áudio
     yin yin(FRAMES_PER_BUFFER); // Cria um objeto da classe YIN
 
@@ -72,9 +75,12 @@ int main(int argc, char* argv[]) {
 
     // int readStatus = readAudioChunk(ogg, &stream, vertices, verticesSize); // Read initial chunk
     bezier.loadShader(); // Carrega os shaders
+    referenceLines.loadShader();
 
     while (!glfwWindowShouldClose(window)){       // Enquanto a janela não for fechada e não for fim de arquivo
         glfwSwapBuffers(window); // Troca os buffers de cor
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
         std::vector<float> audioBufferLeft = pa.getAudioBufferLeft(); // Obtém o buffer de áudio do canal esquerdo
         // yin.getPitch(audioBufferLeft);
@@ -86,6 +92,7 @@ int main(int argc, char* argv[]) {
 
 
         bezier.draw(audioBufferLeft);
+        referenceLines.draw(audioBufferLeft);
         // pa.normalizeFFT(audioBufferLeft); // Normaliza a transformada rápida de Fourier
 
         // gl.setVertices(audioBufferLeft);
